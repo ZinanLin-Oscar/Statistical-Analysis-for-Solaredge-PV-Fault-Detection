@@ -8,3 +8,10 @@ We have developed a Python code that enables Solaredge users to automatically re
 1) PV station is equipped with module optimizers (which are the smallest measuring units for PV power generation);
 2) The measurement data of the module optimizers is publicly available on the Solaredge Monitoring Platform (related to user settings).
 
+# 2. Retrieval of module level data
+- **Logic：** Crawling data from "Lay out -- Show playback" section on Solaredge Monitoring Platform. The example illustrated in the image below.
+- **Data crawling result：** The power generation data (in unit of W) for each module will be collected at 15-minute intervals and exported as a CSV file. Each column in the CSV file will be labeled with a 9-digit code that corresponds to each module.
+- **Scheduled automatic data crawling：**  We used ```schedule.every().day.at("23:50").do(job)``` to automatically execute the code at 11:50 PM every day and save the obtained CSV data in a local folder since the data crawling method cannot obtain historical module level power generation data.
+- **Data curation:** By using the above method, the data for string level and site level in the "Lay out -- Show playback" section were mistakenly captured. To remove the data for these two levels, we used the following method: ```if df[col].max() > 800: df = df.drop(col, axis=1)```.
+![image](https://github.com/ZinanLin-Oscar/Statistical-Analysis-for-Solaredge-PV-Fault-Detection/assets/113269274/c6492e13-de38-4d58-907d-63e1da9b45f8)
+
