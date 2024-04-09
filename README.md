@@ -33,4 +33,5 @@ We have developed a Python code that enables Solaredge users to automatically re
 | ```Daily crawling for one PV station.ipynb``` | 1. Crawl all the module-level data for a single power station in a single day and generate a dataframe | 
 | ```Automated daily crawling for all PV stations.ipynb``` | 1. Crawl all the module-level data for all power stations in a single day<br>2. Save all the data for each power station in a single day to a CSV file<br>3. Save all the CSV files in a single day to a local folder<br> 4. Automatically schedule code execution at 11:50 pm everyday | 
 
-
+# Feedback
+Feel free to send any questions/feedback to [Zinan LIN](zlinby@connect.ust.hk).
