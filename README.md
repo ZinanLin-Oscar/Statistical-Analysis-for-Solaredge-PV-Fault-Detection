@@ -33,5 +33,55 @@ We have developed a Python code that enables Solaredge users to automatically re
 | ```Daily crawling for one PV station.ipynb``` | 1. Crawl all the module-level data for a single power station in a single day and generate a dataframe | 
 | ```Automated daily crawling for all PV stations.ipynb``` | 1. Crawl all the module-level data for all power stations in a single day<br>2. Save all the data for each power station in a single day to a CSV file<br>3. Save all the CSV files in a single day to a local folder<br> 4. Automatically schedule code execution at 11:50 pm everyday | 
 
+
+# 3. 3σ-rule based PV panel fault detection (under same operation period)
+- **Logic：** The 3σ rule, also known as the three-sigma rule, is a statistical rule that states that nearly all values (about 99.7%) lie within three standard deviations of the mean in a normal distribution. It is commonly used to identify outliers or unusual values in a dataset. We first integrate the generated power data (in unit of W) collected every 15 minutes as described above to calculate the energy output (in unit of kWh) of a specific module during a certain time period. We then compare the energy output of this module with that of the other PV panels in the same power station. If the energy output of this module is lower than a certain threshold, we consider it as a faulty module.
+In a normal distribution:
+
+| Range | Probability | 
+| ------- | ------- | 
+| x < u-σ | 15.87% |
+| x < u-2σ | 2.28% |
+| x < u-3σ | 0.13% | 
+
+<img src="https://github.com/ZinanLin-Oscar/Statistical-Analysis-for-Solaredge-PV-Fault-Detection/assets/113269274/7e944cb2-bc14-4ed4-99f6-823c41d0cd6f" alt="image" style="width: 500px;"/>
+
+- **Prerequisite：** The historical power generation data has been crawled and saved in a local folder using the method described in Section 2. The accurate hierarchical structure of data folders should be as follows:
+```
+- crawl_data_folder
+  - 2024-01-01
+    - site1_name.csv
+    - site2_name.csv
+    - site3_name.csv
+    - ...
+  - 2024-01-02
+    - site1_name.csv
+    - site2_name.csv
+    - site3_name.csv
+    - ...
+  - ...
+```
+
+| Parameter | Description | 
+| ------- | ------- | 
+| crawl_data_folder | The local folder path for storing historical data of crawled module levels | 
+| target_station | The name of the PV station conducting fault detection | 
+| start_date | The start date of the fault detection cycle (yyyy-mm-dd) | 
+| end_date | The end date of the fault detection cycle (yyyy-mm-dd) | 
+| threshold | The multiple of standard deviation subtracted for fault detection | 
+| site_list | A list of the names of all power stations associated with your SolarEdge account | 
+
+| Section | Description | 
+| ------- | ------- | 
+| ``` def calculate_daily_energy(file_path) ``` | A function to calculate daily energy generation for PV panels in a single station | 
+| ``` def sum_daily_energy(target_station, start_date, end_date) ``` | A function to sum the daily energy by module within a specific operation period | 
+| ``` def find_low_energy_pv(target_station, start_date, end_date,threshold) ``` | A function to find the PV panels with low energy | 
+
+| Detection range | Parameter settings | Result example | 
+| ------- | ------- | ------- | 
+| A specific station | target_station='UST Shaw Auditorium'<br>start_date='2024-04-06'<br> end_date='2024-04-08<br>threshold=0.3| ```The following PV panels at UST Shaw Auditorium generated less energy than 0.3 standard deviations below the mean:['241559551', '241559563', '241559575', '241559620', '241559634', '241559641']```|
+| All stations | start_date='2024-04-06'<br> end_date='2024-04-08'<br>threshold=0.5 | ```The following PV panels at UST SQ37_48 generated less energy than 0.5 standard deviations below the mean:<br>['172430269', '172430272', '172430287', '172430297']<br>The following PV panels at UST SQ25_36 generated less energy than 0.5 standard deviations below the mean:<br>['172845718', '172845720', '172845733', '172845738']<br>The following PV panels at UST Shaw Auditorium generated less energy than 0.5 standard deviations below the mean:<br>[]```|
+
+
 # Feedback
 Feel free to send any questions/feedback to [Zinan LIN](zlinby@connect.ust.hk).
