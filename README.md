@@ -82,6 +82,10 @@ In a normal distribution:
 | A specific station | target_station='UST Shaw Auditorium'<br>start_date='2024-04-06'<br> end_date='2024-04-08<br>threshold=0.3| ```The following PV panels at UST Shaw Auditorium generated less energy than 0.3 standard deviations below the mean:['241559551', '241559563', '241559575', '241559620', '241559634', '241559641']```|
 | All stations | start_date='2024-04-06'<br> end_date='2024-04-08'<br>threshold=0.5 | ```The following PV panels at UST SQ37_48 generated less energy than 0.5 standard deviations below the mean:<br>['172430269', '172430272', '172430287', '172430297']<br>The following PV panels at UST SQ25_36 generated less energy than 0.5 standard deviations below the mean:<br>['172845718', '172845720', '172845733', '172845738']<br>The following PV panels at UST Shaw Auditorium generated less energy than 0.5 standard deviations below the mean:<br>[]```|
 
+![PV_Generation_Frequency_Distribution11](https://github.com/ZinanLin-Oscar/Statistical-Analysis-for-Solaredge-PV-Fault-Detection/assets/113269274/d0fda28e-bc21-474f-8e1d-d18d44925bae)
+
+
+
 
 
 
